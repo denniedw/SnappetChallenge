@@ -1,0 +1,66 @@
+﻿@page
+@model TodayModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<h2>Gegevens van Vandaag</h2>
+
+<body>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayName("Leerling")
+                </th>
+                <th>
+                    @Html.DisplayName("Beantwoord Begrijpend Lezen")
+                </th>
+                <th>
+                    @Html.DisplayName("Aantal Goed / Fout")
+                </th>
+                <th>
+                    @Html.DisplayName("Beantwoord Spelling")
+                </th>
+                <th>
+                    @Html.DisplayName("Aantal Goed / Fout")
+                </th>
+                <th>
+                    @Html.DisplayName("beantwoord Rekenen")
+                </th>
+                <th>
+                    @Html.DisplayName("Aantal Goed / Fout")
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (Model.UserData != null)
+            {
+                @foreach (var data in Model.UserData)
+                {
+                    <tr>
+                        <td>
+                            <a asp-page="/DetailedUser" asp-route-id="@data.UserId">@Html.DisplayFor(modelItem => data.UserId)</a>
+                        </td>
+
+                        @foreach (var subjectData in data.Subjects)
+                        {
+                            string answered = (subjectData.CorrectAnswered.Count + subjectData.IncorrectAnswered.Count).ToString();
+                            string score = subjectData.CorrectAnswered.Count.ToString() + " / " + subjectData.IncorrectAnswered.Count.ToString();
+
+                            <td>
+                                @answered
+                            </td>
+
+                            <td>
+                                @score
+                            </td>
+                        }
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</body>
+

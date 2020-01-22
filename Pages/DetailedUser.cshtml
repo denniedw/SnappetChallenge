@@ -1,0 +1,245 @@
+﻿@page
+@model DetailedView
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<h2>Gegevens van @Model.DetailsOfUser.UserId</h2>
+
+<body>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayName("Beantwoord Begrijpend Lezen")
+                </th>
+                <th>
+                    @Html.DisplayName("Aantal Goed / Fout")
+                </th>
+                <th>
+                    @Html.DisplayName("Beantwoord Spelling")
+                </th>
+                <th>
+                    @Html.DisplayName("Aantal Goed / Fout")
+                </th>
+                <th>
+                    @Html.DisplayName("beantwoord Rekenen")
+                </th>
+                <th>
+                    @Html.DisplayName("Aantal Goed / Fout")
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (Model.UserData != null)
+            {
+                <tr>
+                    @foreach (var subjectData in Model.UserData.Subjects)
+                    {
+                        string answered = (subjectData.CorrectAnswered.Count + subjectData.IncorrectAnswered.Count).ToString();
+                        string score = subjectData.CorrectAnswered.Count.ToString() + " / " + subjectData.IncorrectAnswered.Count.ToString();
+
+                        <td>
+                            @answered
+                        </td>
+
+                        <td>
+                            @score
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="container">
+        <div class="row">
+            <div id="begrijpendChart" class="col"></div>
+            <div id="rekenenChart" class="col"></div>
+            <div id="spellingChart" class="col"></div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <div class="card-header">
+                    <p>Gemaakte begrijpend lezen opgaven</p>
+                </div>
+                <div class="card-body">
+                    <div id="accordionOne">
+                        <div class="card">
+                            <div class="card-header" id="begrijpendCorrect">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseCorrectBegrijpend" aria-expanded="false" aria-controls="collapseCorrectBegrijpend">
+                                        Opgaven die eerst fout zijn beantwoord en daarna goed
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseCorrectBegrijpend" class="collapse show" aria-labelledby="begrijpendCorrect"
+                                 data-parent="#accordionOne">
+                                <div class="card-body">
+                                    <p>@Model.DetailsOfUser.EventuallyCorrectBegijpend</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header" id="begrijpendIncorrect">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseIncorrectBegrijpend" aria-expanded="false" aria-controls="collapseIncorrectBegrijpend">
+                                        Opgaven die meerdere malen fout zijn beantwoord en niet goed
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseIncorrectBegrijpend" class="collapse" aria-labelledby="begrijpendIncorrect"
+                                 data-parent="#accordionOne">
+                                <div class="card-body">
+                                    <p>@Model.DetailsOfUser.MultipleIncorrectBegrijpend</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col text-center">
+                <div class="card-header">
+                    <p>Gemaakte reken opgaven</p>
+                </div>
+                <div class="card-body">
+                    <div id="accordionTwo">
+                        <div class="card">
+                            <div class="card-header" id="rekenenCorrect">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseCorrectRekenen" aria-expanded="false" aria-controls="collapseCorrectRekenen">
+                                        Opgaven die eerst fout zijn beantwoord en daarna goed
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseCorrectRekenen" class="collapse show" aria-labelledby="rekenenCorrect"
+                                 data-parent="#accordionTwo">
+                                <div class="card-body">
+                                    <p>@Model.DetailsOfUser.EventuallyCorrectRek</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header" id="rekenenIncorrect">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseIncorrectRekenen" aria-expanded="false" aria-controls="collapseIncorrectRekenen">
+                                        Opgaven die meerdere malen fout zijn beantwoord en niet goed
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseIncorrectRekenen" class="collapse" aria-labelledby="rekenenIncorrect"
+                                 data-parent="#accordionTwo">
+                                <div class="card-body">
+                                    <p>@Model.DetailsOfUser.MultipleIncorrectRek</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col text-center">
+                <div class="card-header">
+                    <p>Gemaakte spelling opgaven</p>
+                </div>
+                <div class="card-body">
+                    <div id="accordionThree">
+                        <div class="card">
+                            <div class="card-header" id="spellingCorrect">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseCorrectSpelling" aria-expanded="false" aria-controls="collapseCorrectSpelling">
+                                        Opgaven die eerst fout zijn beantwoord en daarna goed
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseCorrectSpelling" class="collapse show" aria-labelledby="spellingCorrect"
+                                 data-parent="#accordionThree">
+                                <div class="card-body">
+                                    <p>@Model.DetailsOfUser.EventuallyCorrectSpelling</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header" id="spellingIncorrect">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseIncorrectSpelling" aria-expanded="false" aria-controls="collapseIncorrectSpelling">
+                                        Opgaven die meerdere malen fout zijn beantwoord en niet goed
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseIncorrectSpelling" class="collapse" aria-labelledby="spellingIncorrect"
+                                 data-parent="#accordionThree">
+                                <div class="card-body">
+                                    <p>@Model.DetailsOfUser.MultipleIncorrectSpelling</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawRekenenChart);
+    google.charts.setOnLoadCallback(drawBegrijpendChart);
+    google.charts.setOnLoadCallback(drawSpellingChart);
+
+    function drawRekenenChart() {
+
+        var data = google.visualization.arrayToDataTable([
+            ['Onderwerp', 'Percentage'],
+            ['Percentage goed', @Model.DetailsOfUser.PercCorrectRek],
+            ['Percentage fout', @Model.DetailsOfUser.PercIncorrectRek],
+        ]);
+
+        var options = {
+            title: 'Rekenen'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('rekenenChart'));
+
+        chart.draw(data, options);
+    }
+
+    function drawBegrijpendChart() {
+
+        var data = google.visualization.arrayToDataTable([
+            ['Onderwerp', 'Percentage'],
+            ['Percentage goed', @Model.DetailsOfUser.PercCorrectBegrijpend],
+            ['Percentage fout', @Model.DetailsOfUser.PercIncorrectBegrijpend],
+        ]);
+
+        var options = {
+            title: 'Begrijpend lezen'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('begrijpendChart'));
+
+        chart.draw(data, options);
+    }
+
+    function drawSpellingChart() {
+
+        var data = google.visualization.arrayToDataTable([
+            ['Onderwerp', 'Percentage'],
+            ['Percentage goed', @Model.DetailsOfUser.PercCorrectSpelling],
+            ['Percentage fout', @Model.DetailsOfUser.PercIncorrectSpelling],
+        ]);
+
+        var options = {
+            title: 'Spelling'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('spellingChart'));
+
+        chart.draw(data, options);
+    }
+</script>
+
